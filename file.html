@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+<body>
+    <h1>Upload PDF Document</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" required><br>
+        <label for="documentId">Document ID:</label>
+        <input type="text" id="documentId" name="documentId" required><br>
+        <label for="university">University:</label>
+        <input type="text" id="university" name="university" required><br>
+        <input type="file" id="pdf" name="pdf" accept=".pdf" required><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const studentId = document.getElementById('studentId').value;
+            const documentId = document.getElementById('documentId').value;
+            const university = document.getElementById('university').value;
+            const fileInput = document.getElementById('pdf').files[0];
+            
+            formData.append('studentId', studentId);
+            formData.append('documentId', documentId);
+            formData.append('university', university);
+            formData.append('pdf', fileInput);
+
+            fetch('http://localhost:2000/auth/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Upload successful:', data.message);
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error.message);
+            });
+        });
+    </script>
+</body>
+</html>
