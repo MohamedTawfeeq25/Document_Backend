@@ -142,5 +142,29 @@ app.post('/auth/university/verify',upload.single('pdf'), (req, res) => {
         return res.json({ verified: false });
     }
 });
+app.post('/auth/company/submit',(req,res)=>{
+    var cmp=req.body.cmp;
+    var doc=req.body.doc;
+    var uni=req.body.uni;
+    var st_id=req.body.st_id;
 
+    /*
+    {
+        cmpName:req.body.cmp,
+        docu:req.body.doc,
+        uni
+    }
+    */
+});
+app.post('/auth/company/doc',(req,res)=>{
+    var cmp=req.body.cmp;
+    /*
+    get the list of document
+
+    */
+})
+app.post('/auth/company/verify',(req,res)=>{
+    var doc=req.body.doc;
+
+})
 app.listen(2000,()=>{console.log("server started")});
